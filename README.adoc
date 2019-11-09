@@ -1,0 +1,23 @@
+= edens
+:toc: left
+:sectnums:
+
+clitoolsは任意の辞書をエンコード・デコードに使用可能にするコマンドです。
+
+**Developing now**
+
+== Development
+
+Nim 1.0.2
+
+== Usage
+
+TODO
+
+== Install
+
+TODO
+
+== License
+
+MIT
