@@ -48,7 +48,7 @@ $ edens sushi <<< 野菜 | edens sushi -d
 
 [source,bash]
 ----
-nimble install nimjson
+nimble install edens
 ----
 
 == License
