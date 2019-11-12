@@ -89,3 +89,9 @@ nimble install edens
 == License
 
 MIT
+
+== Thanks
+
+* https://raintrees.net/news/124[zws]
+* https://github.com/xztaityozx/kakikokera[kakikokra]
+* https://github.com/msr-i386/horizon[horizon]
