@@ -25,7 +25,7 @@
     "words":["好", "き"]
   },
   {
-    "name":"zws",
+    "name":"zerowidth",
     "description":"ゼロ幅スペース",
     "words":["​", "‌", "‍", "﻿"]
   },
