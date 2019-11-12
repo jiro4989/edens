@@ -76,6 +76,8 @@ suite "proc decode":
     check "abbaaaab".decode(@["a", "b"]) == "a"
   test "a: あ,い":
     check "あいいああああい".decode(@["あ", "い"]) == "a"
+  test "a: あア,いイ":
+    check "あアいイいイあアあアあアあアいイ".decode(@["あア", "いイ"]) == "a"
 
 suite "encode and decode":
   setup:

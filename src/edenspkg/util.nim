@@ -66,8 +66,14 @@ proc decode*(content: string, dict: seq[string]): string =
   let numMax = log(256.0, n.float).ceil.int
   var decodedChars: seq[string]
   var decodedBuf: string
+  # 1単語の文字数
+  let wordLen = dict[0].toRunes.len
+  var c: string
   for ch in content.toRunes:
-    var c = $ch
+    c.add($ch)
+    # 複数文字によるエンコードにも対応するため
+    if c.toRunes.len < wordLen:
+      continue
     # エンコードに使用した辞書で逆置換して複合
     for i, e in dict:
       c = c.replace(e, $i)
@@ -77,4 +83,5 @@ proc decode*(content: string, dict: seq[string]): string =
     if numMax <= decodedBuf.len:
       decodedChars.add($decodedBuf.fromNNotationToDecimal(n).chr)
       decodedBuf = ""
+    c = ""
   result = decodedChars.join
