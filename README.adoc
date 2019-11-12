@@ -44,6 +44,23 @@ $ edens sushi <<< 野菜 | edens sushi -d
 野菜
 ----
 
+=== Name list
+
+`name` の一覧は以下のコマンドで確認できます。
+
+[source,bash]
+----
+$ edens -l
+kakikokera
+sushi
+whitespace
+brackets
+like
+zws
+unko
+horizon
+----
+
 == Install
 
 [source,bash]
