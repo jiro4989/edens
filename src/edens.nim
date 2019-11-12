@@ -1,5 +1,7 @@
-import os, json
+import os, json, logging
 from strutils import strip
+from unicode import toRunes
+from strformat import `&`
 
 import edenspkg/util
 
@@ -17,18 +19,26 @@ https://github.com/jiro4989/edens"""
 var
   dictFile = getAppDir() / "dict.json"
 
+addHandler(newConsoleLogger(lvlInfo, fmtStr = verboseFmtStr, useStderr = true))
+
 proc readInput(files: seq[string]): string =
   if files.len < 1:
     stdin.readAll().strip()
   else:
     files[0].readFile()
 
-proc encodeDecode(decode: bool, words: seq[string], files: seq[string]): (string, int) =
-  let content = readInput(files)
-  let s =
-    if decode: util.decode(content, words)
-    else: util.encode(content, words)
-  return (s, 0)
+proc validateWords(words: seq[string]): bool =
+  if words.len < 2:
+    error "辞書の単語は2つ以上必要です"
+    return false
+
+  let baseLen = words[0].toRunes.len
+  for word in words:
+    let l = word.toRunes.len
+    if baseLen != l:
+      error &"文字数は全て一致する必要があります: word = {word}, length = {l}"
+      return false
+  return true
 
 proc edens(decode = false, list = false, dict = "", words: seq[string] = @[],
           args: seq[string]): int =
@@ -45,6 +55,8 @@ proc edens(decode = false, list = false, dict = "", words: seq[string] = @[],
   var files: seq[string]
   if 0 < words.len:
     words2 = words
+    if not validateWords(words2):
+      return 1
     files = args
   elif 1 <= args.len:
     let name = args[0]
@@ -54,15 +66,16 @@ proc edens(decode = false, list = false, dict = "", words: seq[string] = @[],
       if d.name == name:
         words2 = d.words
         break
-    if words2.len < 1:
-      echo "NG"
+    if not validateWords(words2):
       return 1
   else:
+    error "引数は1つ以上必要です"
     return 1
 
-  let (s, exitCode) = encodeDecode(decode, words2, files)
-  if exitCode != 0:
-    return exitCode
+  let content = readInput(files)
+  let s =
+    if decode: util.decode(content, words2)
+    else: util.encode(content, words2)
   echo s
 
 when isMainModule and not defined(isTesting):
